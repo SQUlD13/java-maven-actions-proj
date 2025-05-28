@@ -10,18 +10,6 @@ env:
   DOCKER_REPO: java-maven-actions-proj
 
 jobs:
-  debug-secrets:
-    runs-on: ubuntu-latest
-
-    steps:
-      - name: Debug secrets
-        run: |
-          echo "Username set: ${DOCKERHUB_USERNAME:+yes}"
-          echo "Token set: ${DOCKERHUB_TOKEN:+yes}"
-        env:
-          DOCKERHUB_USERNAME: ${{ secrets.DOCKERHUB_USERNAME }}
-          DOCKERHUB_TOKEN: ${{ secrets.DOCKERHUB_TOKEN }}
-
 
   CI-CD:
     runs-on: ubuntu-latest
