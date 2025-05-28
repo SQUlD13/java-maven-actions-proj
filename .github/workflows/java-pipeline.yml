@@ -6,6 +6,9 @@ on:
   pull_request:
     branches: [ main ]
 
+env:
+  DOCKER_REPO: java-maven-actions-proj
+
 jobs:
   build-test-deliver:
     runs-on: ubuntu-latest
@@ -31,6 +34,31 @@ jobs:
       with:
         name: test-reports
         path: target/surefire-reports/*.xml
+
+    - name: Version
+      run: scripts/bump_ver.sh
+      env:  
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Get latest tag
+      id: get_tag
+      run: |
+        latest_tag=$(git describe --tags --abbrev=0)
+        echo "LATEST_TAG=$latest_tag" >> $GITHUB_ENV
+      
+    - name: Build Docker Image
+      run: docker build -t simple-java-maven-app:$LATEST_TAG .
+
+    - name: DockerHub - Auth
+      uses: docker/login-action@v2
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}
+        password: ${{ secrets.DOCKERHUB_TOKEN }}
+
+    - name: DockerHub - Push
+      run: |
+        docker tag $DOCKER_REPO:$LATEST_TAG ${{ secrets.DOCKERHUB_USERNAME }}/$DOCKER_REPO:$LATEST_TAG
+        docker push ${{ secrets.DOCKERHUB_USERNAME }}/$DOCKER_REPO:$latest_tag
 
     # - name: Deliver
     #   run: ./jenkins/scripts/deliver.sh
