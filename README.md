@@ -1,15 +1,10 @@
 # simple-java-maven-app
 
-This repository is for the
-[Build a Java app with Maven](https://jenkins.io/doc/tutorials/build-a-java-app-with-maven/)
-tutorial in the [Jenkins User Documentation](https://jenkins.io/doc/).
+Forked from the [Jenkins user documentation for a simple Maven based pipeline](https://github.com/jenkins-docs/simple-java-maven-app), meant to replicate it's functionality using GitHub Actions, with the addition of:
+- Having semantic versioning integrated, which is automatically updated with each push to main.
+- A Docker image build step using the generated artifact
+- Publishing the image to a registry - DockerHub in my case
 
-The repository contains a simple Java application which outputs the string
-"Hello world!" and is accompanied by a couple of unit tests to check that the
-main application works as expected. The results of these tests are saved to a
-JUnit XML report.
+The `.github/workflows/java-pipeline.yml` is the main focus of this project - but available for view is a `bump_ver.sh` script under the `scripts` directory - using git tags to automatically increment a tag, and push it to the Repo.
 
-The `jenkins` directory contains an example of the `Jenkinsfile` (i.e. Pipeline)
-you'll be creating yourself during the tutorial and the `jenkins/scripts` subdirectory
-contains a shell script with commands that are executed when Jenkins processes
-the "Deliver" stage of your Pipeline.
+the original `jenkins` directory remains untouched, containing the original script given as an example from the documentation.

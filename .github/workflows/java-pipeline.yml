@@ -56,7 +56,7 @@ jobs:
     - name: DockerHub - Push
       run: |
         docker tag $DOCKER_REPO:$LATEST_TAG ${{ secrets.DOCKERHUB_USERNAME }}/$DOCKER_REPO:$LATEST_TAG
-        docker push ${{ secrets.DOCKERHUB_USERNAME }}/$DOCKER_REPO:$latest_tag
+        docker push ${{ secrets.DOCKERHUB_USERNAME }}/$DOCKER_REPO:$LATEST_TAG
 
     - name: Version
       run: scripts/bump_ver.sh
