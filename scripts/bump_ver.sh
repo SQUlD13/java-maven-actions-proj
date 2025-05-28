@@ -2,7 +2,7 @@
     set -e
     
     # Get all tags
-    git fetch --tags --unshallow
+    git fetch --tags
 
     # Get latest tag or fallback to v1.0.0
     latest_tag=$(git tag --sort=-v:refname | grep '^v' | head -n 1)
