@@ -35,11 +35,6 @@ jobs:
         name: test-reports
         path: target/surefire-reports/*.xml
 
-    - name: Version
-      run: scripts/bump_ver.sh
-      env:  
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-
     - name: Get latest tag
       id: get_tag
       run: |
@@ -59,6 +54,11 @@ jobs:
       run: |
         docker tag $DOCKER_REPO:$LATEST_TAG ${{ secrets.DOCKERHUB_USERNAME }}/$DOCKER_REPO:$LATEST_TAG
         docker push ${{ secrets.DOCKERHUB_USERNAME }}/$DOCKER_REPO:$latest_tag
+
+    - name: Version
+      run: scripts/bump_ver.sh
+      env:  
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
 
     # - name: Deliver
     #   run: ./jenkins/scripts/deliver.sh
